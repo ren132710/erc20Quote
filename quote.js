@@ -45,12 +45,12 @@ function generateTopERC20Tokens() {
     //.find() is case sensitive, 1inch symbols are upper case, so toUpperCase()
     let geckoSymbolUpper = symbol.toUpperCase()
 
-    //gotta have BTC, so substitute WBTC :)
+    //gotta have BTC, so substitute WBTC
     if (geckoSymbolUpper === 'BTC') {
       geckoSymbolUpper = 'WBTC'
     }
 
-    //match 1inch to Gecko, and push to array
+    //if 1inch matches Gecko, push to array
     const foundToken = oneInchTokens.find(({ symbol }) => {
       return symbol === geckoSymbolUpper
     })
