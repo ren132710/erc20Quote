@@ -10,12 +10,14 @@ body {
     min-height: 100vh;
     background-color: #f2f2f2;
     position: relative;
+    font-size: .8rem;
+    line-height: 1.5;
 }
 
 .main-background {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     background-color: #f2f2f2;
     min-height: 100vh
@@ -23,18 +25,22 @@ body {
 
 .title {
     font-size: 2rem;
-    margin-bottom: 15px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 50px;
+    grid-template-rows: 30px;
     grid-auto-rows: auto;
-    min-width: 50vw;
-    min-height: 65vh;
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 300px;
+    min-height: 300px;
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 20px;
+    box-shadow: 0px 1px 20px rgb(0 27 58 / 5%);
 }
 
 .grid-row {
@@ -44,13 +50,15 @@ body {
 .menu-row {
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .message-row {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0px 20px;
+    text-align: center;
 }
 
 .select-row {
@@ -65,6 +73,13 @@ body {
     flex-direction: column;
     justify-content: space-evenly;
     font-size: .75rem;
+    padding: 10px;
+    background-color: #fDfDfD;
+    border-top: 1px;
+    border-top-style: groove;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
 }
 
 .btn {
