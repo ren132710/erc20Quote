@@ -1,9 +1,9 @@
 * {
+    margin: 0;
     box-sizing: border-box;
 }
 
 body {
-    margin: 0;
     font-family: "SuisseIntl","Helvetica","Arial",sans-serif;
     -webkit-font-smoothing: antialiased;
     color: #3F3F48;
@@ -57,14 +57,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0px 20px;
+    padding:5px 20px;
     text-align: center;
 }
 
 .select-row {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding: 20px;
     
 }
 
@@ -79,7 +80,6 @@ body {
     border-top-style: groove;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-
 }
 
 .btn {

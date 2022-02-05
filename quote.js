@@ -1,3 +1,5 @@
+//ts-check
+
 let rank = 50
 let geckoTokens = []
 let oneInchTokens = []
