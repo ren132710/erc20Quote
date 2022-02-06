@@ -66,15 +66,25 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    
+}
+
+.erc20-list {
+    border-style: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: .90rem;
+}
+
+.erc20-list:hover {
+    background-color: #f2f2f2;
 }
 
 .quote-info-box {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    font-size: .75rem;
-    padding: 10px;
+    font-size: .5rem;
+    padding: 20px;
     background-color: #fDfDfD;
     border-top: 1px;
     border-top-style: groove;

@@ -64,6 +64,23 @@ function generateTopERC20Tokens() {
   return
 }
 
+/*
+function geckoToUpperCase() {
+    let results = []
+    geckoTokens.forEach(({symbol}) => {
+      results.push(symbol.toUpperCase())
+    })
+    geckoSymbols = results
+    return
+}
+function changeBTCtoWBTC() {}
+let results = []
+results = geckoSymbols.map((symbol) => {
+  symbol === 'BTC' ? 'WBTC' : symbol
+  return
+})
+*/
+
 function populateLists() {
   //add tokens symbol and name to fromList
   //add tokens symbol and name to toList
