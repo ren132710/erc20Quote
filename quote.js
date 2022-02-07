@@ -97,10 +97,10 @@ function populateTickerLists() {
 }
 
 /*
-    We want to present a default quote, so
-    Set ETH as default for .from-select
-    Set USDC as default for .to-select
-	TODO: How to get default quote without onchange
+We want to present a default quote, so
+Set ETH as default for .from-select
+Set USDC as default for .to-select
+TODO: How to get default quote without onchange
  */
 function setDefaultOptions() {
   const fromTickerDefault = document.querySelector(
