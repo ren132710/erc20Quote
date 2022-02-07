@@ -4,14 +4,14 @@ let oneInchTokens = []
 let topERC20Tokens = []
 let tickers = []
 
-/* is there a better way to run these functions for testing as I go */
+/* TODO: How do I get these functions to run sequentially when the document loads? */
 // let a = fetchGeckoTokens()
 // let b = fetchOneInchTokens()
 // let c = generateTopERC20Tokens()
 // let d = generateTickers()
 // let e = populateTickerLists()
 // let f = setDefaultOptions()
-// let g = getTickerSelection()
+// let g = getTickerSelection() <<--This function sh
 
 // console.log(a)
 // console.log(b)
@@ -114,12 +114,26 @@ function setDefaultOptions() {
 	toTickerDefault.setAttribute('selected', '')
 }
 
+/* onchange='getQuote()' */
+function getQuote() {
+	//let isSuccess = false
+	let quotePair = getTickerSelection()
+	console.log(quotePair)
+	//fetchTokenSwapInfo(quotePair)
+	//displayTokenSwapInfo(data)
+	isSuccess = true
+	return isSuccess
+}
+
 function getTickerSelection() {
 	let from = document.querySelector('#fromTicker').value
 	let to = document.querySelector('#toTicker').value
-	console.log('from: ' + from)
-	console.log('to: ' + to)
-	return [from, to]
+	// console.log('from: ' + from)
+	// console.log('to: ' + to)
+	return {
+		from: from,
+		to: to,
+	}
 }
 
 function fetchTokenSwapInfo(to, from) {
