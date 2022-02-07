@@ -92,6 +92,24 @@ body {
     border-bottom-right-radius: 20px;
 }
 
+.token-from-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.token-to-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.estimated-gas-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .btn {
     background-color: #fff;
     border: none;
