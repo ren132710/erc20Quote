@@ -29,8 +29,17 @@ setDefaultTickers()
 displayDefaultQuote()
 */
 
+//TODO: thread the bootstrap functions together using .then()
+//TODO: Research how .then() works
 window.onload = function () {
   console.log('page is fully loaded')
+  fetchGeckoTokens()
+  fetchOneInchTokens()
+  generateTopERC20Tokens()
+  generateTickers()
+  populateTickerLists()
+  setDefaultTickers()
+  displayDefaultQuote()
 }
 
 /*
@@ -45,7 +54,7 @@ async function fetchGeckoTokens() {
     const tokens = await response.json()
     geckoTokens = tokens
 
-    //put tokens in PromiseResult
+    //put tokens in PromiseResult for debugging
     return tokens
   } catch (e) {
     console.log(`error: ${e}`)
@@ -61,7 +70,7 @@ async function fetchOneInchTokens() {
     const tokenList = Object.values(tokens.tokens)
     oneInchTokens = tokenList
 
-    //put tokenList in PromiseResult
+    //put tokenList in PromiseResult for debugging
     return tokenList
   } catch (e) {
     console.log(`error: ${e}`)
@@ -84,7 +93,7 @@ async function fetchQuote(fromTokenAddress, toTokenAddress, fromCurrencyUnit) {
     const quoteObj = await response.json()
     quote = quoteObj
 
-    //put quoteObj in PromiseResult
+    //put quoteObj in PromiseResult for debugging
     return quoteObj
   } catch (e) {
     console.log(`error: ${e}`)
@@ -133,10 +142,18 @@ function generateTickers() {
 function populateTickerLists() {
   const fromTicker = document.querySelector('#fromTicker')
   const toTicker = document.querySelector('#toTicker')
-  let optionsArr = tickers.map((ticker) => {
+  let options = tickers.map((ticker) => {
     return `<option value='${ticker}'>${ticker}</option>`
   })
-  const optionsList = optionsArr.join('')
+  /**
+   * TODO: consider putting the address in the value attribute so it's there already for getQuote()
+   * TODO: Consider adding token name to the dropdown innerText
+   * const options = topERC20Tokens.map(token => {
+   *   return `<option value='${token.address}'>${token.name} (${token.symbol})</option>`
+   *  })
+   */
+
+  const optionsList = options.join('')
   fromTicker.innerHTML = optionsList
   toTicker.innerHTML = optionsList
   return
