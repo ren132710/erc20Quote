@@ -1,26 +1,41 @@
-let rank = 50
+const rank = 50
 let geckoTokens = []
 let oneInchTokens = []
 let topERC20Tokens = []
-let tickers = []
+let tickers = {}
+//TODO: #1 quote variable seems receives fetch response object only if type is not assigned. Not sure why
+//TODO: #2 However, subsequently quote is undefined when called by the displayQuoteInfo()
+//TODO: although works fine from the browser console.log()
+//TODO: See screenshot
+//let quote = {}
+let quote
 
-// TODO: How do you get these functions to run sequentially after the document loads?
-// TODO: How do you test as you go? Currently, I am pasting each function manually one-by-one into the browser console
-// let a = fetchGeckoTokens()
-// let b = fetchOneInchTokens()
-// let c = generateTopERC20Tokens()
-// let d = generateTickers()
-// let e = populateTickerLists()
-// let f = setDefaultOptions()
-// let g = getTickerSelection()
+/*
+TODO: #3 How to get API and Bootstrap functions to run sequentially after the document loads?
+TODO: I tried window.load and cannot get these function to successfully populate the global variables
 
-// console.log(a)
-// console.log(b)
-// console.log(c)
-// console.log(d)
-// console.log(e)
-// console.log(f)
-//console.log(g)
+TODO: #4 Testing. Currently, I am pasting each function manually, sequentially into the browser console to test.
+TODO: Very tedious
+TODO: I want to try a javascript test runner. Which test runner is recommended?
+TODO: I am looking here: https://2020.stateofjs.com/en-US/technologies/testing/
+
+These api and bootstrap functions need to fire after the initial page load:
+fetchGeckoTokens()
+fetchOneInchTokens()
+generateTopERC20Tokens()
+generateTickers()
+populateTickerLists()
+setDefaultTickers()
+displayDefaultQuote()
+*/
+
+window.onload = function () {
+  console.log('page is fully loaded')
+}
+
+/*
+ * API Calls
+ */
 
 async function fetchGeckoTokens() {
   try {
@@ -29,7 +44,9 @@ async function fetchGeckoTokens() {
     )
     const tokens = await response.json()
     geckoTokens = tokens
-    return
+
+    //put tokens in PromiseResult
+    return tokens
   } catch (e) {
     console.log(`error: ${e}`)
   }
@@ -43,16 +60,45 @@ async function fetchOneInchTokens() {
     //1inch JSON hierarchy requires going 2 levels deep to get the value objects
     const tokenList = Object.values(tokens.tokens)
     oneInchTokens = tokenList
-    return
+
+    //put tokenList in PromiseResult
+    return tokenList
   } catch (e) {
     console.log(`error: ${e}`)
   }
 }
 
+/*
+ * Defaults for testing
+ * fromTokenAddress : "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" //ETH
+ * toTokenAddress : "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" //USDC
+ * fromCurrencyUnit : "100000000000000000"
+ * fetchQuote('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', '100000000000000000')
+ */
+
+async function fetchQuote(fromTokenAddress, toTokenAddress, fromCurrencyUnit) {
+  try {
+    const response = await fetch(
+      `https://api.1inch.io/v4.0/1/quote?fromTokenAddress=${fromTokenAddress}&toTokenAddress=${toTokenAddress}&amount=${fromCurrencyUnit}`
+    )
+    const quoteObj = await response.json()
+    quote = quoteObj
+
+    //put quoteObj in PromiseResult
+    return quoteObj
+  } catch (e) {
+    console.log(`error: ${e}`)
+  }
+}
+
+/*
+ * Page Bootstrap Functions
+ */
+
 function generateTopERC20Tokens() {
   let arr = []
 
-  //hey! destructuring works! :-)
+  //cool! destructuring works! :-)
   geckoTokens.forEach(({ symbol }) => {
     //.find() is case sensitive, 1inch symbols are upper case, so toUpperCase()
     let geckoSymbolUpper = symbol.toUpperCase()
@@ -97,12 +143,12 @@ function populateTickerLists() {
 }
 
 /*
-We want to present a default quote, so
-Set ETH as default for .from-select
-Set USDC as default for .to-select
-TODO: How to get default quote without onchange
+ * Let's present a default quote, so
+ * set ETH as the default fromTicker
+ * set USDC as the default to toTicker
  */
-function setDefaultOptions() {
+
+function setDefaultTickers() {
   const fromTickerDefault = document.querySelector(
     "#fromTicker > [value = 'ETH']"
   )
@@ -113,33 +159,84 @@ function setDefaultOptions() {
   toTickerDefault.setAttribute('selected', '')
 }
 
+function displayDefaultQuote() {
+  getQuote()
+  return
+}
+
+/*
+ * Quote Functions
+ */
+
 function getQuote() {
-  let isSuccess = false
-  let quotePair = getTickerSelection()
-  console.log(quotePair)
+  let isQuoteSuccessful = false
+  let tickers = getTickerSelection()
+  let fromTokenAddress = getTokenAddress(tickers.fromTicker).toString()
+  console.log(fromTokenAddress)
+  let fromCurrencyUnit = getFromCurrencyUnit(tickers.fromTicker).toString()
+  console.log(fromCurrencyUnit)
+  let toTokenAddress = getTokenAddress(tickers.toTicker).toString()
+  console.log(toTokenAddress)
+  //let response = fetchQuote(fromTokenAddress, toTokenAddress, fromCurrencyUnit)
+  fetchQuote(fromTokenAddress, toTokenAddress, fromCurrencyUnit)
+  // console.log(response)
+  // quote = response
+  //displayQuoteInfo(quote)
+  displayQuoteInfo()
 
-  //fetchTokenSwapInfo(quotePair)
-  //displayTokenSwapInfo(data)
-
-  isSuccess = true
-  return isSuccess
+  isQuoteSuccessful = true
+  return isQuoteSuccessful
 }
 
 function getTickerSelection() {
   let from = document.querySelector('#fromTicker').value
   let to = document.querySelector('#toTicker').value
   return {
-    from: from,
-    to: to,
+    fromTicker: from,
+    toTicker: to,
   }
 }
 
-function fetchTokenSwapInfo(to, from) {
-  //get to address; from address
-  //post api call
-  //parse and store quote-response
+function getTokenAddress(ticker) {
+  const foundToken = topERC20Tokens.find((item) => {
+    return item.symbol === ticker
+  })
+  return foundToken.address
 }
 
-function displayTokenSwapInfo(data) {
-  //display quote-response to quote-info-box
+function getFromCurrencyUnit(ticker) {
+  const foundToken = topERC20Tokens.find((item) => {
+    return item.symbol === ticker
+  })
+  let unit = 1
+  let decimals = foundToken.decimals
+  let fromCurrencyUnit = zeroPad(unit, decimals)
+  return fromCurrencyUnit
+}
+
+function displayQuoteInfo() {
+  const spanFromLabel = document.querySelector('#fromLabel')
+  const spanToTokenAmount = document.querySelector('#toTokenAmount')
+  const spanToLabel = document.querySelector('#toLabel')
+  const spanFromTokenAmount = document.querySelector('#fromTokenAmount')
+  const spanEstimatedGas = document.querySelector('#estimatedGas')
+
+  //TODO: Fails here ****************
+  //TODO: quote returns 'undefined', however console.log(quote) in the browser DOES return the quote object??
+  console.log(quote)
+  spanFromLabel.innerText = `1 ${quote.fromToken.symbol} costs approximately`
+  spanToTokenAmount.innerText = `${quote.toTokenAmount} ${quote.toToken.symbol}`
+
+  spanToLabel.innerText = `1 ${quote.toToken.symbol} costs approximately`
+
+  //TODO: Let's see if doing math on a string will fail
+  spanFromTokenAmount.innerText = `${1 / quote.toTokenAmount} ${
+    quote.fromToken.symbol
+  }`
+
+  spanEstimatedGas.innerText = `${quote.estimatedGas} GWEI`
+}
+
+function zeroPad(num, decimals) {
+  return num.toString().padEnd(decimals + 1, '0')
 }
