@@ -29,18 +29,18 @@ setDefaultTickers()
 displayDefaultQuote()
 */
 
-//TODO: thread the bootstrap functions together using .then()
-//TODO: Research how .then() works
-window.onload = function () {
-  console.log('page is fully loaded')
-  fetchGeckoTokens()
-  fetchOneInchTokens()
-  generateTopERC20Tokens()
-  generateTickers()
-  populateTickerLists()
-  setDefaultTickers()
-  displayDefaultQuote()
-}
+//TODO: How to make the bootstrap functions successfully on page load?
+//TODO: chain the bootstrap functions in some way using async await??
+// window.onload = function () {
+//   console.log('page is fully loaded')
+//   fetchGeckoTokens()
+//   fetchOneInchTokens()
+//   generateTopERC20Tokens()
+//   generateTickers()
+//   populateTickerLists()
+//   setDefaultTickers()
+//   displayDefaultQuote()
+// }
 
 /*
  * API Calls
