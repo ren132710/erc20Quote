@@ -165,21 +165,24 @@ async function getQuote() {
     fromCurrencyUnit
   )
 
-  displayQuoteInfo(quote, tickers.decimalRatio)
+  displayQuoteInfo(quote, tickers)
 
   return quote
 }
 
-function displayQuoteInfo(quote, decimalRatio) {
+function displayQuoteInfo(quote, tickers) {
   exchangeRate =
-    (Number(quote.toTokenAmount) / Number(quote.fromTokenAmount)) * decimalRatio
+    (Number(quote.toTokenAmount) / Number(quote.fromTokenAmount)) *
+    tickers.decimalRatio
   spanFromLabel.innerText = `1 ${quote.fromToken.symbol} costs approx.`
   spanToTokenAmount.innerText = `${exchangeRate} ${quote.toToken.symbol}`
 
   spanToLabel.innerText = `1 ${quote.toToken.symbol} costs approx.`
-  spanFromTokenAmount.innerText = `${1 / exchangeRate} ${
-    quote.fromToken.symbol
-  }`
+
+  //take the inverse and round to fromDecimals
+  spanFromTokenAmount.innerText = `${(1 / exchangeRate).toFixed(
+    tickers.fromDecimals
+  )} ${quote.fromToken.symbol}`
 
   spanEstimatedGas.innerText = `${quote.estimatedGas} GWEI??`
 }
