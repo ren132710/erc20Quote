@@ -52,7 +52,6 @@ async function fetchTopTickers() {
 }
 
 async function fetchTopTokenInfo(tickers) {
-  console.log(tickers)
   try {
     let response = await fetch('https://api.1inch.exchange/v3.0/1/Tokens')
 
@@ -89,6 +88,10 @@ function generateTopERC20Tokens(tickers, tokenList) {
 }
 
 async function fetchQuote(fromTokenAddress, toTokenAddress, fromCurrencyUnit) {
+  console.log(fromTokenAddress)
+  console.log(toTokenAddress)
+  console.log(fromCurrencyUnit)
+
   try {
     const response = await fetch(
       `https://api.1inch.io/v4.0/1/quote?fromTokenAddress=${fromTokenAddress}&toTokenAddress=${toTokenAddress}&amount=${fromCurrencyUnit}`
@@ -153,8 +156,6 @@ function displayDefaultQuote() {
  */
 
 async function getQuote() {
-  let isQuoteSuccessful = false
-
   let tickers = getTickerSelection()
   let fromCurrencyUnit = getFromCurrencyUnit(tickers.fromDecimals)
 
@@ -166,8 +167,7 @@ async function getQuote() {
 
   displayQuoteInfo(quote)
 
-  isQuoteSuccessful = true
-  return isQuoteSuccessful
+  return quote
 }
 
 function displayQuoteInfo(quote) {
