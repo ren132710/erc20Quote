@@ -71,8 +71,10 @@ body {
 .erc20-list {
     border-style: none;
     border-radius: 4px;
+    font-size: .70rem;
+    text-align: right;
+    width: 125px;
     cursor: pointer;
-    font-size: .90rem;
 }
 
 .erc20-list:hover {
