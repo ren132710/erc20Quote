@@ -165,13 +165,14 @@ async function getQuote() {
     fromCurrencyUnit
   )
 
-  displayQuoteInfo(quote)
+  displayQuoteInfo(quote, tickers.decimalRatio)
 
   return quote
 }
 
-function displayQuoteInfo(quote) {
-  let exchangeRate = +quote.toTokenAmount / 10 ** +quote.toToken.decimals
+function displayQuoteInfo(quote, decimalRatio) {
+  exchangeRate =
+    (Number(quote.toTokenAmount) / Number(quote.fromTokenAmount)) * decimalRatio
   spanFromLabel.innerText = `1 ${quote.fromToken.symbol} costs approx.`
   spanToTokenAmount.innerText = `${exchangeRate} ${quote.toToken.symbol}`
 
@@ -189,11 +190,14 @@ function getTickerSelection() {
   let [fromDec, fromAddr] = fromToken.split('-')
   let toToken = document.querySelector('#toTicker').value
   let [toDec, toAddr] = toToken.split('-')
+  let decRatio = 10 ** (fromDec - toDec)
+
   return {
     fromAddress: fromAddr,
     fromDecimals: fromDec,
     toAddress: toAddr,
     toDecimals: toDec,
+    decimalRatio: decRatio,
   }
 }
 
