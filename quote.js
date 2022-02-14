@@ -63,11 +63,13 @@ async function fetchTopTokenInfo(tickers) {
     //1inch JSON hierarchy requires going 2 levels deep to get the value objects
     let tokenList = Object.values(tokens.tokens)
 
+    // .includes works but does not preserve the market cap rank given by the tickers sort order
+    // topTokens = tokenList.filter((token) => tickers.includes(token.symbol))
+
     //keep a record of the top ERC20 tokens
     topERC20Tokens = generateTopERC20Tokens(tickers, tokenList)
 
     return topERC20Tokens
-    //return tokenList.filter((token) => tickers.includes(token.symbol)) <--TODO: I could not get this to work
   } catch (e) {
     console.log(`'ERROR: ' ${e}`)
   }
