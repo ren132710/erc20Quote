@@ -190,7 +190,6 @@ function displayQuoteInfo(quote, tickers) {
 }
 
 function getTickerSelection() {
-  //parse the option values
   let fromToken = document.querySelector('#fromTicker').value
   let [fromDec, fromAddr] = fromToken.split('-')
   let toToken = document.querySelector('#toTicker').value
